@@ -21,4 +21,5 @@ public class  ImageLoader {
     public static void clear(Context context) {
         Glide.get(context).clearMemory();
     }
+
 }

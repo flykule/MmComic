@@ -6,6 +6,8 @@ import android.content.pm.ApplicationInfo;
 import android.os.Build;
 import android.util.DisplayMetrics;
 
+import static android.content.Context.ACTIVITY_SERVICE;
+
 /**
  * Created by castle on 16-8-30.
  * 系统工具类，用于处理系统相关的信息，例如版本号等等
@@ -49,5 +51,11 @@ public class SysUtil {
             memoryClass = am.getLargeMemoryClass();
         }
         return 1024 * memoryClass;
+    }
+
+    public static int calculateMemorySize(Context context, int percentage) {
+        ActivityManager activityManager = (ActivityManager)context.getSystemService(ACTIVITY_SERVICE);
+        int memoryClass = activityManager.getLargeMemoryClass();
+        return 1024 * 1024 * memoryClass / percentage;
     }
 }

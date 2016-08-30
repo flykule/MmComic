@@ -1,8 +1,11 @@
 package com.example.castle.mmcomic.ui.activity;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -37,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     DrawerLayout mDrawerLayout;
 
     //记录当前侧滑item
-    private int mCurrentMenuItem;
+    private int mCurrentNavItem;
     //侧滑栏切换按钮
     private ActionBarDrawerToggle mDrawerToggle;
     private FragmentManager mFragmentManager;
@@ -47,7 +50,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        //初始化fragment manager
         mFragmentManager = getSupportFragmentManager();
+        mFragmentManager.addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
+            @Override
+            public void onBackStackChanged() {
+                //通过返回栈里面是否有fragment判断是显示后退按钮还是侧滑栏触发按钮
+                mDrawerToggle.setDrawerIndicatorEnabled(mFragmentManager.getBackStackEntryCount() == 0);
+            }
+        });
 
         //初始化toolbar,设置相应属性
         setSupportActionBar(mToolbar);
@@ -55,20 +66,20 @@ public class MainActivity extends AppCompatActivity {
         if (SysUtil.isLollipopOrLater()) {
             mToolbar.setElevation(8f);
         }
-        /*
         if (getSupportActionBar() != null) {
             //回退键
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setHomeButtonEnabled(true);
         }
-        */
         //设置侧滑栏,以及切换按钮
         setUpSlideMenu();
         mDrawerToggle = new ActionBarDrawerToggle(
-                this, mDrawerLayout, mToolbar,R.string.drawer_open, R.string.drawer_close
+                this, mDrawerLayout, R.string.drawer_open, R.string.drawer_close
         );
         mDrawerLayout.addDrawerListener(mDrawerToggle);
-        mDrawerToggle.syncState();
+        if (savedInstanceState == null) {
+
+        }
     }
 
     private void setUpSlideMenu() {
@@ -76,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 //如果当前打开的就是所选页面，直接关闭即可
-                if (mCurrentMenuItem == item.getItemId()) {
+                if (mCurrentNavItem == item.getItemId()) {
                     mDrawerLayout.closeDrawers();
                     return true;
                 }
@@ -92,12 +103,18 @@ public class MainActivity extends AppCompatActivity {
                         break;
                 }
                 //打开新页面以后保存信息
-                mCurrentMenuItem = item.getItemId();
+                mCurrentNavItem = item.getItemId();
                 item.setChecked(true);
                 mDrawerLayout.closeDrawers();
                 return true;
             }
         });
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
     @Override
@@ -107,26 +124,74 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //在这里设置侧滑栏显示与关闭
-    /*@Override
+    @Override
     public boolean onSupportNavigateUp() {
-        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
-            mDrawerLayout.closeDrawers();
-        } else {
-            mDrawerLayout.openDrawer(GravityCompat.START);
+        if (!popFragment()) {
+            if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+                mDrawerLayout.closeDrawers();
+            } else {
+                mDrawerLayout.openDrawer(GravityCompat.START);
+            }
         }
         return super.onSupportNavigateUp();
-    }*/
+    }
 
     @Override
     public void onBackPressed() {
-        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
-            mDrawerLayout.closeDrawers();
+        if (popFragment()) {
+            if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+                mDrawerLayout.closeDrawers();
+            }
         } else {
+            //实现一定时间内双击退出
             if (!DoubleClickExit.check()) {
                 ToastUtil.showShort("再按一次退出");
             } else {
                 finish();
             }
         }
+    }
+
+
+    public void pushFragment(Fragment fragment) {
+        mFragmentManager
+                .beginTransaction()
+                .replace(R.id.content_frame, fragment)
+                .addToBackStack(null)
+                .commit();
+    }
+
+
+    //如果返回栈里面有就弹出fragment，否则返回false
+    private boolean popFragment() {
+        if (mFragmentManager.getBackStackEntryCount() > 0) {
+            mFragmentManager.popBackStack();
+            return true;
+        }
+        return false;
+    }
+
+    //弹出所有fragment，设置一个新的fragment
+    private void setFragment(Fragment fragment) {
+        if (mFragmentManager.getBackStackEntryCount()>0) {
+            //弹出所有fragment
+            mFragmentManager.popBackStack(null,FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        }
+
+        mFragmentManager.beginTransaction()
+                .replace(R.id.content_frame, fragment)
+                .commit();
+    }
+
+    public void setNavBar(Fragment fragment) {
+        mFragmentManager.beginTransaction()
+                .replace(R.id.header, fragment)
+                .commit();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        outPersistentState.putInt(STATE_CURRENT_MENU_ITEM, mCurrentNavItem);
+        super.onSaveInstanceState(outState, outPersistentState);
     }
 }
