@@ -2,7 +2,9 @@
 
 buildscript {
     repositories {
-        jcenter()
+        jcenter {
+            url "http://jcenter.bintray.com/"
+        }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.2.0-beta3'
@@ -14,13 +16,15 @@ buildscript {
 
 allprojects {
     repositories {
-        jcenter()
+        jcenter {
+            url "http://jcenter.bintray.com/"
+        }
     }
     ext {
         // Android config
         androidBuildToolsVersion = '24.0.2'
         androidMinSdkVersion = 21
-        androidTargetSdkVersion = 23
+        androidTargetSdkVersion = 24
         androidCompileSdkVersion = 24
 
         //library versions
