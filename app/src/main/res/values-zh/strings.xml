@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MmComic</string>
+    <string name="app_description">Android漫画阅读器，使用材料设计</string>
+
+    <string name="action_refresh">刷新</string>
+    <string name="action_settings">设置</string>
+
+    <string name="action_view_mode">观看模式</string>
+    <string name="action_view_mode_aspect_fill">按比例拉伸</string>
+    <string name="action_view_mode_aspect_fit">按比例拉伸</string>
+    <string name="action_view_mode_fit_width">适应宽度</string>
+
+    <string name="action_reading_mode">阅读模式</string>
+    <string name="action_reading_mode_left_to_right">漫画</string>
+    <string name="action_reading_mode_right_to_left">Manga</string>
+
+    <string name="menu_browser_filter">过滤条件</string>
+    <string name="menu_browser_filter_all">全部</string>
+    <string name="menu_browser_filter_read">已读</string>
+    <string name="menu_browser_filter_reading">正在阅读</string>
+    <string name="menu_browser_filter_unread">未读</string>
+    <string name="menu_browser_filter_unfinished">阅读未完成</string>
+
+    <string name="drawer_open">打开侧滑栏</string>
+    <string name="drawer_close">关闭侧滑栏</string>
+
+    <string name="menu_library">漫画库</string>
+    <string name="menu_browser">浏览</string>
+    <string name="menu_about">关于</string>
+
+    <string name="library_header_recent">最近</string>
+    <string name="library_header_all">全部</string>
+
+    <string name="directory_picker_header">选择漫画库目录</string>
+    <string name="directory_picker_confirm">选择</string>
+    <string name="directory_picker_cancel">取消</string>
+
+    <string name="search">搜索</string>
+
+    <string name="browser_search_hint">请输入搜索条件</string>
+
+    <string name="reload">重新载入</string>
+
+    <string name="switch_action_positive">确认</string>
+    <string name="switch_action_negative">取消</string>
+    <string name="switch_next_comic">你想要切换到下一个漫画吗？</string>
+    <string name="switch_prev_comic">你想要切换到上一个漫画吗？</string>
+
+    <string name="library_empty">你还未指定当前漫画库。点击"\文件夹\"图标选择目录！</string>
+    <string name="warning_missing_file">未能发现文件。请更新漫画库。</string>
+</resources>

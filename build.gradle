@@ -1,0 +1,63 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.2.0-beta3'
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+allprojects {
+    repositories {
+        jcenter()
+    }
+    ext {
+        // Android config
+        androidBuildToolsVersion = '24.0.2'
+        androidMinSdkVersion = 21
+        androidTargetSdkVersion = 23
+        androidCompileSdkVersion = 24
+
+        //library versions
+        supportVersion = '24.2.0'
+        retrofitVersion = '2.1.0'
+        glideVersion = '3.7.0'
+        rxjavaVersion = '1.0.13'
+        rxAndroidVersion = '1.0.1'
+        gsonVersion = '2.7'
+        calligraphyVersion = '2.1.0'
+        butterknifeVersion = '8.2.1'
+
+        //presentation libraries
+        presentationDependencies = [
+                supportv7            : "com.android.support:appcompat-v7:${supportVersion}",
+                supportv4            : "com.android.support:support-v4:${supportVersion}",
+                designsupport        : "com.android.support:design:${supportVersion}",
+                palette              : "com.android.support:palette-v7:${supportVersion}",
+                recyclerview         : "com.android.support:recyclerview-v7:${supportVersion}",
+                cardview             : "com.android.support:cardview-v7:${supportVersion}",
+                androidannotations   : "com.android.support:support-annotations:${supportVersion}",
+                retrofit             : "com.squareup.retrofit2:retrofit:${retrofitVersion}",
+                glide                : "com.github.bumptech.glide:glide:${glideVersion}",
+                rxjava               : "io.reactivex:rxjava:${rxjavaVersion}",
+                rxandroid            : "io.reactivex:rxandroid:${rxAndroidVersion}",
+                gson                 : "com.google.code.gson:gson:${gsonVersion}",
+                retrofitrxjavaadapter: "com.squareup.retrofit2:adapter-rxjava:${retrofitVersion}",
+                retrofitgsonconverter: "com.squareup.retrofit2:converter-gson:${retrofitVersion}",
+                calligraphy          : "uk.co.chrisjenx:calligraphy:${calligraphyVersion}",
+                butterknife          : "com.jakewharton:butterknife:${butterknifeVersion}",
+                butterknifeComplier  : "com.jakewharton:butterknife-compiler:${butterknifeVersion}",
+        ]
+
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+

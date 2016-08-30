@@ -1,0 +1,44 @@
+apply plugin: 'com.android.application'
+apply plugin: 'android-apt'
+
+android {
+    compileSdkVersion 24
+    buildToolsVersion "24.0.2"
+
+    defaultConfig {
+        applicationId "com.example.castle.mmcomic"
+        minSdkVersion 21
+        targetSdkVersion 24
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    def presentationDependencies = parent.ext.presentationDependencies
+    compile presentationDependencies.supportv7
+    compile presentationDependencies.supportv4
+    compile presentationDependencies.designsupport
+    compile presentationDependencies.palette
+    compile presentationDependencies.cardview
+    compile presentationDependencies.recyclerview
+    compile presentationDependencies.androidannotations
+    compile presentationDependencies.retrofit
+    compile presentationDependencies.glide
+    compile presentationDependencies.rxjava
+    compile presentationDependencies.rxandroid
+    compile presentationDependencies.gson
+    compile presentationDependencies.retrofitrxjavaadapter
+    compile presentationDependencies.retrofitgsonconverter
+    compile presentationDependencies.calligraphy
+    compile presentationDependencies.butterknife
+    compile presentationDependencies.butterknifeComplier
+
+}
