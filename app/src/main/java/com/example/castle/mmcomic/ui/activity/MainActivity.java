@@ -3,6 +3,7 @@ package com.example.castle.mmcomic.ui.activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -12,7 +13,9 @@ import android.view.MenuItem;
 import android.widget.FrameLayout;
 
 import com.example.castle.mmcomic.R;
+import com.example.castle.mmcomic.utils.DoubleClickExit;
 import com.example.castle.mmcomic.utils.SysUtil;
+import com.example.castle.mmcomic.utils.ToastUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,12 +40,14 @@ public class MainActivity extends AppCompatActivity {
     private int mCurrentMenuItem;
     //侧滑栏切换按钮
     private ActionBarDrawerToggle mDrawerToggle;
+    private FragmentManager mFragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        mFragmentManager = getSupportFragmentManager();
 
         //初始化toolbar,设置相应属性
         setSupportActionBar(mToolbar);
@@ -50,18 +55,20 @@ public class MainActivity extends AppCompatActivity {
         if (SysUtil.isLollipopOrLater()) {
             mToolbar.setElevation(8f);
         }
+        /*
         if (getSupportActionBar() != null) {
             //回退键
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setHomeButtonEnabled(true);
         }
+        */
         //设置侧滑栏,以及切换按钮
         setUpSlideMenu();
         mDrawerToggle = new ActionBarDrawerToggle(
-                this, mDrawerLayout, R.string.drawer_open, R.string.drawer_close
+                this, mDrawerLayout, mToolbar,R.string.drawer_open, R.string.drawer_close
         );
         mDrawerLayout.addDrawerListener(mDrawerToggle);
-
+        mDrawerToggle.syncState();
     }
 
     private void setUpSlideMenu() {
@@ -100,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //在这里设置侧滑栏显示与关闭
-    @Override
+    /*@Override
     public boolean onSupportNavigateUp() {
         if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             mDrawerLayout.closeDrawers();
@@ -108,5 +115,18 @@ public class MainActivity extends AppCompatActivity {
             mDrawerLayout.openDrawer(GravityCompat.START);
         }
         return super.onSupportNavigateUp();
+    }*/
+
+    @Override
+    public void onBackPressed() {
+        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            mDrawerLayout.closeDrawers();
+        } else {
+            if (!DoubleClickExit.check()) {
+                ToastUtil.showShort("再按一次退出");
+            } else {
+                finish();
+            }
+        }
     }
 }
