@@ -12,7 +12,7 @@
 * commons-compress：
 * org.tukaani.xz:
 
-**感谢这些库的作者！Thankss these libary creator!*
+**感谢这些库的作者！Thankss these libary creator!**
 ##参考项目:
 ###项目中参考的开源项目
 * [bubble](https://github.com/nkanaev/bubble)
