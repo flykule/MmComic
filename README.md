@@ -8,8 +8,8 @@
 * Stetho： 调试工具，用于网络调试
 * Logger： 日志工具类，用于方便的控制日志级别与打印日志
 * Gson：json解析
-* Junrar:
-* commons-compress：
+* Junrar:用于rar格式解析
+* commons-compress：通用压缩格式库
 * org.tukaani.xz:
 
 **感谢这些库的作者！Thankss these libary creator!**

@@ -16,7 +16,7 @@ import java.util.List;
  * Created by castle on 16-8-30.
  * 解析目录类型的资源的解释器，不应该直接访问，通过工厂访问
  */
-public class DirectoryParser extends BaseParse<File> {
+public class DirectoryParser extends BaseParser<File> {
     private List<File> mFileList = new ArrayList<>();
     @Override
     public void parse(final File dir) throws IOException {

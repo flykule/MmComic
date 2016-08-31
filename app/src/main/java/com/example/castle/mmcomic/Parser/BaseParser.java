@@ -15,7 +15,7 @@ import rx.schedulers.Schedulers;
  * Created by castle on 16-8-30.
  * 文件解析接口
  */
-public abstract class BaseParse<T> {
+public abstract class BaseParser<T> {
     /**
      * 解析资源的方法，可能根据情况抛出io异常
      * @param file 要解析的目标

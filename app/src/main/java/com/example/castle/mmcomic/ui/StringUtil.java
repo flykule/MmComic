@@ -40,4 +40,6 @@ public class StringUtil {
     public static boolean isSame(String text1, String text2) {
         return !TextUtils.isEmpty(text1) && !TextUtils.isEmpty(text2) && text1.equals(text2);
     }
+
+
 }

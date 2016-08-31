@@ -3,7 +3,10 @@ package com.example.castle.mmcomic.utils;
 import com.example.castle.mmcomic.ui.StringUtil;
 import com.example.castle.mmcomic.ui.UiUtils;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * Created by castle on 16-8-30.
@@ -94,5 +97,26 @@ public class FileUtils {
      */
     public static boolean isArchive(String filename) {
         return isZip(filename) || isRar(filename) || isTarball(filename) || isSevenZ(filename);
+    }
+
+    /**
+     * 将一个输入流转换为byte[]
+     *
+     * @param is 字节流
+     * @return byte[]
+     * @throws IOException
+     */
+    public static byte[] toByteArray(InputStream is) throws IOException {
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        try {
+            byte[] b = new byte[4096];
+            int n = 0;
+            while ((n = is.read(b)) != -1) {
+                output.write(b, 0, n);
+            }
+            return output.toByteArray();
+        } finally {
+            output.close();
+        }
     }
 }
