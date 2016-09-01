@@ -132,7 +132,7 @@ public class DirectorySelectDialog extends AppCompatDialog
             }
             File subDir = mSubDirs[i];
             TextView textView = (TextView) view.findViewById(R.id.directory_row_text);
-            if (i == 0 && StringUtil.isSame(mCurrentDir.getPath(), mRootDir.getPath())) {
+            if (i == 0 && !StringUtil.isSame(mCurrentDir.getPath(), mRootDir.getPath())) {
                 textView.setText("..");
             } else {
                 textView.setText(subDir.getName());
