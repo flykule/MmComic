@@ -19,7 +19,7 @@ public class DirectoryListManager {
     private final List<String> mDirectoryDisplay;
     private final File mLibraryDir;
 
-    public DirectoryListManager(File libraryDir, List<Comic> comicList) {
+    public DirectoryListManager(String libraryDir, List<Comic> comicList) {
         //首先按父文件名进行排序
         Collections.sort(comicList, new Comparator<Comic>() {
             @Override
@@ -29,7 +29,7 @@ public class DirectoryListManager {
                 return leftPath.compareTo(rightPath);
             }
         });
-        mLibraryDir = libraryDir;
+        mLibraryDir = new File(libraryDir == null ? "/" : libraryDir);
         mComicList = comicList;
         mDirectoryDisplay = new ArrayList<>();
         initDirectoryDisplay();
