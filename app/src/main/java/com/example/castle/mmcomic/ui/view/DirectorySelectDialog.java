@@ -21,6 +21,7 @@ import java.util.Arrays;
 import java.util.Collections;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -48,6 +49,7 @@ public class DirectorySelectDialog extends AppCompatDialog
     public DirectorySelectDialog(Context context) {
         super(context);
         setContentView(R.layout.dialog_directorypicker);
+        ButterKnife.bind(this);
         //初始化listView以及文件过滤器
         mAdapter = new DirectoryListAdapter();
         mDirectoryListview.setAdapter(mAdapter);
@@ -101,76 +103,42 @@ public class DirectorySelectDialog extends AppCompatDialog
         setCurrentDirectory(subDir);
     }
 
-    private class DirectoryListAdapter extends BaseAdapter {
-
-        @Override
-        public int getCount() {
-            return mSubDirs == null ? 0 : mSubDirs.length;
-        }
-
-        @Override
-        public Object getItem(int i) {
-            return mSubDirs[i];
-        }
-
-        @Override
-        public long getItemId(int i) {
-            return 0;
-        }
-
-        @Override
-        public View getView(int i, View view, ViewGroup viewGroup) {
-            if (view == null) {
-                view = LayoutInflater.from(getContext())
-                        .inflate(R.layout.row_directory, viewGroup, false);
-            }
-            File subDir = mSubDirs[i];
-            TextView textView = (TextView) view.findViewById(R.id.directory_row_text);
-            if (i == 0 && StringUtil.isSame(mCurrentDir.getPath(), mRootDir.getPath())) {
-                textView.setText("..");
-            } else {
-                textView.setText(subDir.getName());
-            }
-            return view;
-        }
-    }
-
-    private class DirectoryListAdapter extends BaseAdapter {
-
-        @Override
-        public int getCount() {
-            return mSubDirs == null ? 0 : mSubDirs.length;
-        }
-
-        @Override
-        public Object getItem(int i) {
-            return mSubDirs[i];
-        }
-
-        @Override
-        public long getItemId(int i) {
-            return 0;
-        }
-
-        @Override
-        public View getView(int i, View view, ViewGroup viewGroup) {
-            if (view == null) {
-                view = LayoutInflater.from(getContext())
-                        .inflate(R.layout.row_directory, viewGroup, false);
-            }
-            File subDir = mSubDirs[i];
-            TextView textView = (TextView) view.findViewById(R.id.directory_row_text);
-            if (i == 0 && StringUtil.isSame(mCurrentDir.getPath(), mRootDir.getPath())) {
-                textView.setText("..");
-            } else {
-                textView.setText(subDir.getName());
-            }
-            return view;
-        }
-    }
-
     public interface OnDirectorySelectListener {
         void onDirectorySelect(File file);
+    }
+
+    private class DirectoryListAdapter extends BaseAdapter {
+
+        @Override
+        public int getCount() {
+            return mSubDirs == null ? 0 : mSubDirs.length;
+        }
+
+        @Override
+        public Object getItem(int i) {
+            return mSubDirs[i];
+        }
+
+        @Override
+        public long getItemId(int i) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int i, View view, ViewGroup viewGroup) {
+            if (view == null) {
+                view = LayoutInflater.from(getContext())
+                        .inflate(R.layout.row_directory, viewGroup, false);
+            }
+            File subDir = mSubDirs[i];
+            TextView textView = (TextView) view.findViewById(R.id.directory_row_text);
+            if (i == 0 && StringUtil.isSame(mCurrentDir.getPath(), mRootDir.getPath())) {
+                textView.setText("..");
+            } else {
+                textView.setText(subDir.getName());
+            }
+            return view;
+        }
     }
 
 }

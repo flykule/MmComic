@@ -6,11 +6,11 @@ import android.os.Message;
 import android.os.Process;
 import android.text.TextUtils;
 
-import com.example.castle.mmcomic.Parser.BaseParser;
-import com.example.castle.mmcomic.Parser.ParserFactory;
 import com.example.castle.mmcomic.base.Constant;
 import com.example.castle.mmcomic.models.Comic;
 import com.example.castle.mmcomic.models.Storage;
+import com.example.castle.mmcomic.parser.BaseParser;
+import com.example.castle.mmcomic.parser.ParserFactory;
 import com.example.castle.mmcomic.utils.FileUtils;
 import com.example.castle.mmcomic.utils.SharedPrefUtil;
 import com.example.castle.mmcomic.utils.UiUtils;
@@ -18,6 +18,7 @@ import com.example.castle.mmcomic.utils.UiUtils;
 import java.io.File;
 import java.lang.ref.WeakReference;
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Deque;
 import java.util.HashMap;
@@ -40,6 +41,10 @@ public class Scanner {
     //重启handler
     private Handler mRestartHandler = new RestartHandler(this);
 
+    private Scanner() {
+        ScannerHolder.instance = this;
+        mUpdateHandler = new ArrayList<>();
+    }
     /**
      * @return 单例引用
      */

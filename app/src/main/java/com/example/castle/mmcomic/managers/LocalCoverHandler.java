@@ -4,13 +4,13 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 
-import com.example.castle.mmcomic.Parser.BaseParser;
-import com.example.castle.mmcomic.Parser.ParserFactory;
 import com.example.castle.mmcomic.base.Constant;
 import com.example.castle.mmcomic.models.Comic;
-import com.example.castle.mmcomic.ui.StringUtil;
+import com.example.castle.mmcomic.parser.BaseParser;
+import com.example.castle.mmcomic.parser.ParserFactory;
 import com.example.castle.mmcomic.utils.FileUtils;
 import com.example.castle.mmcomic.utils.ImageUtil;
+import com.example.castle.mmcomic.utils.StringUtil;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Request;
 import com.squareup.picasso.RequestHandler;

@@ -17,6 +17,7 @@ import android.widget.FrameLayout;
 
 import com.example.castle.mmcomic.R;
 import com.example.castle.mmcomic.managers.Scanner;
+import com.example.castle.mmcomic.ui.fragment.LibraryFragment;
 import com.example.castle.mmcomic.utils.DoubleClickExit;
 import com.example.castle.mmcomic.utils.SysUtil;
 import com.example.castle.mmcomic.utils.ToastUtil;
@@ -82,7 +83,10 @@ public class MainActivity extends AppCompatActivity {
 
         Scanner.getInstance().scanLibrary();
         if (savedInstanceState == null) {
-
+            setFragment(new LibraryFragment());
+            //setNavBar();
+            mCurrentNavItem = R.id.drawer_menu_library;
+            mNavigationView.getMenu().findItem(mCurrentNavItem).setChecked(true);
         }
     }
 

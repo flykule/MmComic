@@ -64,7 +64,7 @@ public class LibraryFragment extends Fragment implements SwipeRefreshLayout.OnRe
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mSelectDialog = new DirectorySelectDialog(UiUtils.getContext());
+        mSelectDialog = new DirectorySelectDialog(getContext());
         mSelectDialog.setCurrentDirectory(Environment.getExternalStorageDirectory());
         mSelectDialog.setOnDirectorySelectListener(this);
 
