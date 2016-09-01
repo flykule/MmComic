@@ -21,19 +21,19 @@ public abstract class BaseParser<T> {
      * @param file 要解析的目标
      * @throws IOException
      */
-    abstract void parse(File file) throws IOException;
+    public abstract void parse(File file) throws IOException;
 
     /**
      * 销毁数据
      * @throws IOException
      */
-    abstract void destroy() throws IOException;
+    public abstract void destroy() throws IOException;
 
     /**
      * 返回资源类型的后缀，例如zip,tar或者目录等等
      * @return 资源后缀
      */
-    abstract String getType();
+    public abstract String getType();
 
     /**
      * 返回特定页面
@@ -41,13 +41,13 @@ public abstract class BaseParser<T> {
      * @return 指定页面
      * @throws IOException
      */
-    abstract InputStream getPage(int num) throws IOException;
+    public abstract InputStream getPage(int num) throws IOException;
 
     /**
      * 返回页数
      * @return 资源有效页数
      */
-    abstract int pageCount();
+    public abstract int pageCount();
 
     /**
      * 通过rxjava过滤观察数据

@@ -22,7 +22,7 @@ public class ZipParser extends BaseParser<ZipEntry> {
     private List<ZipEntry> mEntries;
 
     @Override
-    void parse(File file) throws IOException {
+    public void parse(File file) throws IOException {
         mZipFile = new ZipFile(file.getAbsolutePath());
         mEntries = new ArrayList<>();
         List<ZipEntry> entryList = new ArrayList<>();
@@ -40,22 +40,22 @@ public class ZipParser extends BaseParser<ZipEntry> {
     }
 
     @Override
-    void destroy() throws IOException {
+    public void destroy() throws IOException {
         mZipFile.close();
     }
 
     @Override
-    String getType() {
+    public String getType() {
         return "zip";
     }
 
     @Override
-    InputStream getPage(int num) throws IOException {
+    public InputStream getPage(int num) throws IOException {
         return mZipFile.getInputStream(mEntries.get(num));
     }
 
     @Override
-    int pageCount() {
+    public int pageCount() {
         return mEntries.size();
     }
 

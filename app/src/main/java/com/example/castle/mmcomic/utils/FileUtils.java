@@ -1,8 +1,5 @@
 package com.example.castle.mmcomic.utils;
 
-import com.example.castle.mmcomic.ui.StringUtil;
-import com.example.castle.mmcomic.ui.UiUtils;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;

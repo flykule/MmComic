@@ -1,4 +1,4 @@
-package com.example.castle.mmcomic.ui;
+package com.example.castle.mmcomic.utils;
 
 import android.text.TextUtils;
 
@@ -33,12 +33,28 @@ public class StringUtil {
     }
 
     /**
+     * 比较两个字符串是否相同，如果其中有个为空或者不相等则返回false
      * @param text1 字符串一
      * @param text2 字符串二
-     * @return 比较两个字符串是否相同，如果其中有个为空或者不相等则返回false
+     * @return 比较两个字符串是否相同
      */
     public static boolean isSame(String text1, String text2) {
-        return !TextUtils.isEmpty(text1) && !TextUtils.isEmpty(text2) && text1.equals(text2);
+        return nonNull(text1, text2) && text1.equals(text2);
+    }
+
+    /**
+     * 一次传入多个字符串，判断是否没有空字符串或者null
+     *
+     * @param strings 要判断的字符串，一个或多个
+     * @return 是否没有空字符串或者null
+     */
+    public static boolean nonNull(String... strings) {
+        for (String string : strings) {
+            if (TextUtils.isEmpty(string)) {
+                return false;
+            }
+        }
+        return true;
     }
 
 

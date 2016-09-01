@@ -10,6 +10,10 @@ import java.io.IOException;
  * 解析器工厂类
  */
 public class ParserFactory {
+
+    public static BaseParser create(String fileName) {
+        return create(new File(fileName));
+    }
     /**
      * 根据文件类型返回解析器
      *

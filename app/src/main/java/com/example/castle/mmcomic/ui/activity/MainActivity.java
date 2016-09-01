@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.widget.FrameLayout;
 
 import com.example.castle.mmcomic.R;
+import com.example.castle.mmcomic.managers.Scanner;
 import com.example.castle.mmcomic.utils.DoubleClickExit;
 import com.example.castle.mmcomic.utils.SysUtil;
 import com.example.castle.mmcomic.utils.ToastUtil;
@@ -25,6 +26,7 @@ import butterknife.ButterKnife;
 
 /**
  * 主页活动
+ * TODO: 加入6.0权限管理
  */
 public class MainActivity extends AppCompatActivity {
 
@@ -77,6 +79,8 @@ public class MainActivity extends AppCompatActivity {
                 this, mDrawerLayout, R.string.drawer_open, R.string.drawer_close
         );
         mDrawerLayout.addDrawerListener(mDrawerToggle);
+
+        Scanner.getInstance().scanLibrary();
         if (savedInstanceState == null) {
 
         }

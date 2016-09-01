@@ -1,4 +1,4 @@
-package com.example.castle.mmcomic.ui;
+package com.example.castle.mmcomic.utils;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -6,10 +6,9 @@ import android.os.Handler;
 import android.os.Process;
 import android.support.annotation.ArrayRes;
 import android.support.annotation.ColorRes;
+import android.support.annotation.IntegerRes;
 import android.support.annotation.StringRes;
 import android.util.DisplayMetrics;
-
-import com.example.castle.mmcomic.utils.MyApplication;
 
 
 /**
@@ -40,6 +39,14 @@ public class UiUtils {
      */
     public static String getString( @StringRes int stringRes) {
         return getResources().getString(stringRes);
+    }
+
+    /**
+     * @param intRes 需求的资源id
+     * @return 指定integer
+     */
+    public static Integer getInteger(@IntegerRes int intRes) {
+        return getResources().getInteger(intRes);
     }
 
     /**
