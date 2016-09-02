@@ -271,9 +271,6 @@ public class LibraryFragment extends Fragment implements SwipeRefreshLayout.OnRe
             ImageView imageView = (ImageView) view.findViewById(R.id.card_group_imageview);
             mPicasso.load(LocalCoverHandler.getComicCoverUri(comic))
                     .into(imageView);
-            //mPicasso.load(R.drawable.ic_launcher)
-            //        .into(imageView);
-            //Glide.with(getActivity()).load(R.drawable.ic_launcher).into(imageView);
             TextView textView = (TextView) view.findViewById(R.id.comic_group_folder);
             textView.setText(displayAtIndex);
             return view;

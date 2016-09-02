@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.os.Handler;
 
+import com.facebook.stetho.Stetho;
 
 import java.util.HashMap;
 
@@ -19,6 +20,18 @@ public class MyApplication extends Application{
 
     private HashMap<String, String> mProtocolCacheMap = new HashMap<>();
 
+    public static Context getContext() {
+        return mContext;
+    }
+
+    public static Handler getHandler() {
+        return mHandler;
+    }
+
+    public static int getMainThread() {
+        return mMainThread;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -30,18 +43,7 @@ public class MyApplication extends Application{
          * pid:进程id
          */
         mMainThread = android.os.Process.myTid();
-    }
-
-    public static Context getContext() {
-        return mContext;
-    }
-
-    public static Handler getHandler() {
-        return mHandler;
-    }
-
-    public static int getMainThread() {
-        return mMainThread;
+        Stetho.initializeWithDefaults(this);
     }
 
     public HashMap<String, String> getProtocolCacheMap() {

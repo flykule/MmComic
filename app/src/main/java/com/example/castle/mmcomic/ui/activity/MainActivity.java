@@ -17,30 +17,30 @@ import android.widget.FrameLayout;
 
 import com.example.castle.mmcomic.R;
 import com.example.castle.mmcomic.managers.Scanner;
+import com.example.castle.mmcomic.ui.fragment.HeaderFragment;
 import com.example.castle.mmcomic.ui.fragment.LibraryFragment;
 import com.example.castle.mmcomic.utils.DoubleClickExit;
 import com.example.castle.mmcomic.utils.SysUtil;
 import com.example.castle.mmcomic.utils.ToastUtil;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
+
 
 /**
  * 主页活动
  * TODO: 加入6.0权限管理
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements FragmentManager.OnBackStackChangedListener {
 
     private static final String STATE_CURRENT_MENU_ITEM = "STATE_CURRENT_MENU_ITEM";
 
-    @BindView(R.id.toolbar)
     Toolbar mToolbar;
-    @BindView(R.id.content_frame)
+
     FrameLayout mContentFrame;
-    @BindView(R.id.navigation_view)
+
     NavigationView mNavigationView;
-    @BindView(R.id.drawer_layout)
+
     DrawerLayout mDrawerLayout;
+
 
     //记录当前侧滑item
     private int mCurrentNavItem;
@@ -53,16 +53,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
         //初始化fragment manager
         mFragmentManager = getSupportFragmentManager();
-        mFragmentManager.addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
-            @Override
-            public void onBackStackChanged() {
-                //通过返回栈里面是否有fragment判断是显示后退按钮还是侧滑栏触发按钮
-                mDrawerToggle.setDrawerIndicatorEnabled(mFragmentManager.getBackStackEntryCount() == 0);
-            }
-        });
+        mFragmentManager.addOnBackStackChangedListener(this);
+
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mContentFrame = (FrameLayout) findViewById(R.id.content_frame);
+        mNavigationView = (NavigationView) findViewById(R.id.navigation_view);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+
 
         //初始化toolbar,设置相应属性
         setSupportActionBar(mToolbar);
@@ -70,6 +69,8 @@ public class MainActivity extends AppCompatActivity {
         if (SysUtil.isLollipopOrLater()) {
             mToolbar.setElevation(8f);
         }
+
+
         if (getSupportActionBar() != null) {
             //回退键
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -82,15 +83,19 @@ public class MainActivity extends AppCompatActivity {
         );
         mDrawerLayout.addDrawerListener(mDrawerToggle);
 
-
         Scanner.getInstance().scanLibrary();
         if (savedInstanceState == null) {
             setFragment(new LibraryFragment());
-            //setNavBar();
+            setNavBar();
             mCurrentNavItem = R.id.drawer_menu_library;
-            mNavigationView.getMenu().findItem(mCurrentNavItem).setChecked(true);
+        } else {
+            //强制更新指示
+            onBackStackChanged();
+            mCurrentNavItem = savedInstanceState.getInt(STATE_CURRENT_MENU_ITEM);
         }
+        mNavigationView.getMenu().findItem(mCurrentNavItem).setChecked(true);
     }
+
 
     private void setUpSlideMenu() {
         mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -109,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
 
                         break;
                     case R.id.drawer_menu_library:
-
+                        setFragment(new LibraryFragment());
                         break;
                 }
                 //打开新页面以后保存信息
@@ -183,9 +188,9 @@ public class MainActivity extends AppCompatActivity {
 
     //弹出所有fragment，设置一个新的fragment
     private void setFragment(Fragment fragment) {
-        if (mFragmentManager.getBackStackEntryCount()>0) {
+        if (mFragmentManager.getBackStackEntryCount() > 0) {
             //弹出所有fragment
-            mFragmentManager.popBackStack(null,FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            mFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         }
 
         mFragmentManager.beginTransaction()
@@ -193,9 +198,9 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
     }
 
-    public void setNavBar(Fragment fragment) {
+    public void setNavBar() {
         mFragmentManager.beginTransaction()
-                .replace(R.id.header, fragment)
+                .add(android.support.design.R.id.navigation_header_container, new HeaderFragment())
                 .commit();
     }
 
@@ -203,5 +208,10 @@ public class MainActivity extends AppCompatActivity {
     public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
         outPersistentState.putInt(STATE_CURRENT_MENU_ITEM, mCurrentNavItem);
         super.onSaveInstanceState(outState, outPersistentState);
+    }
+
+    @Override
+    public void onBackStackChanged() {
+        mDrawerToggle.setDrawerIndicatorEnabled(mFragmentManager.getBackStackEntryCount() == 0);
     }
 }
