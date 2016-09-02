@@ -3,6 +3,7 @@ package com.example.castle.mmcomic.utils;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.View;
+
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.MainThreadSubscription;
@@ -32,11 +33,11 @@ public class RxDrawer {
                         }
                     }
                 };
-                drawer.addDrawerListener(listener);
+                drawer.setDrawerListener(listener);
                 subscriber.add(new MainThreadSubscription() {
                     @Override
                     protected void onUnsubscribe() {
-                        drawer.removeDrawerListener(listener);
+                        //drawer.DrawerListener(listener);
                     }
                 });
             }

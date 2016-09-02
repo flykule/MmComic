@@ -62,8 +62,10 @@ public class HeaderFragment extends Fragment implements View.OnLayoutChangeListe
         } else {
             if (mDrawable != null) showDrawable(mDrawable);
         }
+
         return view;
     }
+
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {

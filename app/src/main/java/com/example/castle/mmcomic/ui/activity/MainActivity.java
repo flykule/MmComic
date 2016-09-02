@@ -17,7 +17,7 @@ import android.widget.FrameLayout;
 
 import com.example.castle.mmcomic.R;
 import com.example.castle.mmcomic.managers.Scanner;
-import com.example.castle.mmcomic.ui.fragment.HeaderFragment;
+import com.example.castle.mmcomic.ui.fragment.BrowserFragment;
 import com.example.castle.mmcomic.ui.fragment.LibraryFragment;
 import com.example.castle.mmcomic.utils.DoubleClickExit;
 import com.example.castle.mmcomic.utils.SysUtil;
@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         Scanner.getInstance().scanLibrary();
         if (savedInstanceState == null) {
             setFragment(new LibraryFragment());
-            setNavBar();
+            //setNavBar();
             mCurrentNavItem = R.id.drawer_menu_library;
         } else {
             //强制更新指示
@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
 
                         break;
                     case R.id.drawer_menu_browser:
-
+                        setFragment(new BrowserFragment());
                         break;
                     case R.id.drawer_menu_library:
                         setFragment(new LibraryFragment());
@@ -199,9 +199,11 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
     }
 
     public void setNavBar() {
+        /*api 24以上不能直接找到header并用这种方式替换
         mFragmentManager.beginTransaction()
-                .add(android.support.design.R.id.navigation_header_container, new HeaderFragment())
+                .add(R.id.header, new HeaderFragment())
                 .commit();
+        */
     }
 
     @Override
