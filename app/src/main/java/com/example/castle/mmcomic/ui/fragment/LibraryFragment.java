@@ -139,7 +139,7 @@ public class LibraryFragment extends Fragment implements SwipeRefreshLayout.OnRe
         mGvGroup.setOnItemClickListener(this);
         //根据屏幕尺寸计算应该有的列数
         int deviceWidth = UiUtils.getDeviceWidth();
-        int columWidth = UiUtils.getInteger(R.integer.grid_comic_column_width);
+        int columWidth = UiUtils.getInteger(R.integer.grid_group_column_width);
         int numColums = Math.round((float) deviceWidth / columWidth);
         mGvGroup.setNumColumns(numColums);
 
@@ -198,7 +198,9 @@ public class LibraryFragment extends Fragment implements SwipeRefreshLayout.OnRe
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         String path = mListManager.getDirectoryAtIndex(i);
-        ToastUtil.showShort("path");
+        String absolutePath = mListManager.getComicAtIndex(i).getFile().getAbsolutePath();
+        String displayAtIndex = mListManager.getDirectoryDisplayAtIndex(i);
+        ToastUtil.showShort(path + "cover: " + absolutePath + " display: " + displayAtIndex);
     }
 
     /**
@@ -225,7 +227,7 @@ public class LibraryFragment extends Fragment implements SwipeRefreshLayout.OnRe
         @Override
         public void handleMessage(Message msg) {
             LibraryFragment fragment = mLibraryFragment.get();
-            if (fragment != null) {
+            if (fragment == null) {
                 return;
             }
             switch (msg.what) {
@@ -263,12 +265,15 @@ public class LibraryFragment extends Fragment implements SwipeRefreshLayout.OnRe
             Comic comic = mListManager.getComicAtIndex(i);
             String displayAtIndex = mListManager.getDirectoryDisplayAtIndex(i);
             if (view == null) {
-                view = LayoutInflater.from(UiUtils.getContext())
+                view = getActivity().getLayoutInflater()
                         .inflate(R.layout.card_group, viewGroup, false);
             }
             ImageView imageView = (ImageView) view.findViewById(R.id.card_group_imageview);
             mPicasso.load(LocalCoverHandler.getComicCoverUri(comic))
                     .into(imageView);
+            //mPicasso.load(R.drawable.ic_launcher)
+            //        .into(imageView);
+            //Glide.with(getActivity()).load(R.drawable.ic_launcher).into(imageView);
             TextView textView = (TextView) view.findViewById(R.id.comic_group_folder);
             textView.setText(displayAtIndex);
             return view;

@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
     private ActionBarDrawerToggle mDrawerToggle;
     private FragmentManager mFragmentManager;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
                 this, mDrawerLayout, R.string.drawer_open, R.string.drawer_close
         );
         mDrawerLayout.addDrawerListener(mDrawerToggle);
+
 
         Scanner.getInstance().scanLibrary();
         if (savedInstanceState == null) {

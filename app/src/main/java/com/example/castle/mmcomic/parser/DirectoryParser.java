@@ -1,5 +1,7 @@
 package com.example.castle.mmcomic.parser;
 
+import android.os.SystemClock;
+
 import com.example.castle.mmcomic.managers.NaturalOrderComparator;
 import com.example.castle.mmcomic.utils.FileUtils;
 
@@ -29,6 +31,9 @@ public class DirectoryParser extends BaseParser<File> {
             subscribeData(Arrays.asList(files));
         } else {
             throw new IOException("空目录！ " + dir.getAbsolutePath());
+        }
+        while (!isComplete()) {
+            SystemClock.sleep(200);
         }
         Collections.sort(mFileList, new NaturalOrderComparator() {
             @Override

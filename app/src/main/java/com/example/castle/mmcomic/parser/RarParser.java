@@ -1,5 +1,7 @@
 package com.example.castle.mmcomic.parser;
 
+import android.os.SystemClock;
+
 import com.example.castle.mmcomic.managers.NaturalOrderComparator;
 import com.example.castle.mmcomic.utils.FileUtils;
 import com.example.castle.mmcomic.utils.StringUtil;
@@ -36,6 +38,9 @@ public class RarParser extends BaseParser<FileHeader> {
         List<FileHeader> fileHeaders = mArchive.getFileHeaders();
         if (fileHeaders != null) {
             subscribeData(fileHeaders);
+        }
+        while (!isComplete()) {
+            SystemClock.sleep(500);
         }
         Collections.sort(mHeaders, new NaturalOrderComparator() {
             @Override

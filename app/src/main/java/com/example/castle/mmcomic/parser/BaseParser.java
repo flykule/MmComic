@@ -1,6 +1,6 @@
 package com.example.castle.mmcomic.parser;
 
-import com.example.castle.mmcomic.utils.SimpleSubscriber;
+import com.orhanobut.logger.Logger;
 
 import java.io.File;
 import java.io.IOException;
@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.util.List;
 
 import rx.Observable;
+import rx.Observer;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
@@ -16,6 +17,9 @@ import rx.schedulers.Schedulers;
  * 文件解析接口
  */
 public abstract class BaseParser<T> {
+
+    //用于判断是否读取完成的标志位
+    private boolean mComplete = false;
     /**
      * 解析资源的方法，可能根据情况抛出io异常
      *
@@ -67,15 +71,34 @@ public abstract class BaseParser<T> {
                         return fileFilter(t);
                     }
                 })
-                .subscribeOn(Schedulers.io())
-                .unsubscribeOn(Schedulers.io())
+                .subscribeOn(Schedulers.computation())
+                .onBackpressureBuffer()
+                //.unsubscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
-                .subscribe(new SimpleSubscriber<T>() {
+                .subscribe(new Observer<T>() {
+                    @Override
+                    public void onCompleted() {
+                        setComplete(true);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.d(e.getMessage());
+                    }
+
                     @Override
                     public void onNext(T t) {
                         whenNext(t);
                     }
                 });
+    }
+
+    public boolean isComplete() {
+        return mComplete;
+    }
+
+    public void setComplete(boolean complete) {
+        mComplete = complete;
     }
 
     /**

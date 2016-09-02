@@ -14,7 +14,7 @@
         android:background="@color/lightest"
         android:orientation="vertical">
 
-        <com.nkanaev.comics.view.GroupImageView
+        <com.example.castle.mmcomic.ui.view.GroupImageView
             android:id="@+id/card_group_imageview"
             android:layout_width="match_parent"
             android:layout_height="0dp"/>

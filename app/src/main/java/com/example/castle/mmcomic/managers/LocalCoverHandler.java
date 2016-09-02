@@ -65,7 +65,7 @@ public class LocalCoverHandler extends RequestHandler {
     private String getCoverPath(Uri comicUri) throws IOException {
         File coverFile = FileUtils.getCacheFile(comicUri.getPath());
         if (!coverFile.isFile()) {
-            BaseParser parser = ParserFactory.create(coverFile);
+            BaseParser parser = ParserFactory.create(comicUri.getPath());
             InputStream stream = parser.getPage(0);
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inJustDecodeBounds = true;

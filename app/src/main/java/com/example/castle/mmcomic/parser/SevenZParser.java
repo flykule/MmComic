@@ -1,5 +1,7 @@
 package com.example.castle.mmcomic.parser;
 
+import android.os.SystemClock;
+
 import com.example.castle.mmcomic.managers.NaturalOrderComparator;
 import com.example.castle.mmcomic.utils.FileUtils;
 
@@ -31,6 +33,9 @@ public class SevenZParser extends BaseParser<SevenZArchiveEntry> {
                 entryList.add(sevenZArchiveEntry);
             }
             subscribeData(entryList);
+        }
+        while (!isComplete()) {
+            SystemClock.sleep(200);
         }
         Collections.sort(mEntries, new NaturalOrderComparator() {
             @Override
