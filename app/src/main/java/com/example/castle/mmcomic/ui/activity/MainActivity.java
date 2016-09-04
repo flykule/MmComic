@@ -13,16 +13,17 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 
 import com.example.castle.mmcomic.R;
 import com.example.castle.mmcomic.managers.Scanner;
 import com.example.castle.mmcomic.ui.fragment.BrowserFragment;
+import com.example.castle.mmcomic.ui.fragment.HeaderFragment;
 import com.example.castle.mmcomic.ui.fragment.LibraryFragment;
 import com.example.castle.mmcomic.utils.DoubleClickExit;
 import com.example.castle.mmcomic.utils.SysUtil;
 import com.example.castle.mmcomic.utils.ToastUtil;
-
 
 
 /**
@@ -86,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         Scanner.getInstance().scanLibrary();
         if (savedInstanceState == null) {
             setFragment(new LibraryFragment());
-            //setNavBar();
+            setNavBar();
             mCurrentNavItem = R.id.drawer_menu_library;
         } else {
             //强制更新指示
@@ -101,14 +102,13 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                //如果当前打开的就是所选页面，直接关闭即可
+                //close if the selected item equals current fragment
                 if (mCurrentNavItem == item.getItemId()) {
                     mDrawerLayout.closeDrawers();
                     return true;
                 }
                 switch (item.getItemId()) {
                     case R.id.drawer_menu_about:
-
                         break;
                     case R.id.drawer_menu_browser:
                         setFragment(new BrowserFragment());
@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
                         setFragment(new LibraryFragment());
                         break;
                 }
-                //打开新页面以后保存信息
+                //save selected id
                 mCurrentNavItem = item.getItemId();
                 item.setChecked(true);
                 mDrawerLayout.closeDrawers();
@@ -186,10 +186,10 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         return false;
     }
 
-    //弹出所有fragment，设置一个新的fragment
+    //pop all and set a new fragment
     private void setFragment(Fragment fragment) {
         if (mFragmentManager.getBackStackEntryCount() > 0) {
-            //弹出所有fragment
+            //pop all fragment
             mFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         }
 
@@ -199,11 +199,19 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
     }
 
     public void setNavBar() {
-        /*api 24以上不能直接找到header并用这种方式替换
-        mFragmentManager.beginTransaction()
-                .add(R.id.header, new HeaderFragment())
-                .commit();
-        */
+        //添加观察树，确保渲染完成后再添加头
+        mNavigationView.getViewTreeObserver().addOnGlobalLayoutListener(
+                new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        //api 24以上不能直接找到header并用这种方式替换
+                        //api 24以下可以直接这么操作
+                        mFragmentManager.beginTransaction()
+                                .replace(R.id.header, new HeaderFragment())
+                                .commit();
+                    }
+                });
+
     }
 
     @Override
