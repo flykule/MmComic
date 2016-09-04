@@ -40,7 +40,7 @@ public class RarParser extends BaseParser<FileHeader> {
             subscribeData(fileHeaders);
         }
         while (!isComplete()) {
-            SystemClock.sleep(500);
+            SystemClock.sleep(200);
         }
         Collections.sort(mHeaders, new NaturalOrderComparator() {
             @Override

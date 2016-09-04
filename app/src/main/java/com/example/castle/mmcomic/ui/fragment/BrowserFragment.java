@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.example.castle.mmcomic.R;
 import com.example.castle.mmcomic.base.MyBaseAdapter;
+import com.example.castle.mmcomic.parser.ParserFactory;
 import com.example.castle.mmcomic.utils.FileUtils;
 import com.example.castle.mmcomic.utils.StringUtil;
 import com.example.castle.mmcomic.utils.UiUtils;
@@ -46,7 +47,7 @@ public class BrowserFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (savedInstanceState == null) {
+        if (savedInstanceState != null) {
             mCurrentDir = ((File) savedInstanceState.getSerializable(STATE_CURRENT_DIR));
         } else {
             mCurrentDir = Environment.getExternalStorageDirectory();
@@ -67,7 +68,7 @@ public class BrowserFragment extends Fragment {
         setCurrentDir(mCurrentDir);
         mAdapter = new BrowserAdapter(mSubDirs);
         mRecycleBrowser.setAdapter(mAdapter);
-        mRecycleBrowser.setLayoutManager(new GridLayoutManager(getContext(), 3));
+        mRecycleBrowser.setLayoutManager(new LinearLayoutManager(getContext()));
 
         return v;
     }
@@ -101,8 +102,11 @@ public class BrowserFragment extends Fragment {
             }
         }
         Collections.sort(subDirs);
+        mSubDirs.clear();
         mSubDirs.addAll(subDirs);
-        mAdapter.notifyDataSetChanged();
+        if (mAdapter != null) {
+            mAdapter.notifyDataSetChanged();
+        }
         mDirTextView.setText(currentDir.getAbsolutePath());
     }
 
@@ -119,7 +123,7 @@ public class BrowserFragment extends Fragment {
                 colorRes = R.color.circle_red;
             }
         }
-        GradientDrawable shape = (GradientDrawable) holder.itemView.getBackground();
+        GradientDrawable shape = (GradientDrawable) holder.mDirectoryRowIcon.getBackground();
         shape.setColor(UiUtils.getColor(colorRes));
     }
 
@@ -137,13 +141,25 @@ public class BrowserFragment extends Fragment {
         }
 
         @Override
-        protected void popHolder(BrowserAdapter.ViewHolder holder, File item, int position) {
+        protected void popHolder(BrowserAdapter.ViewHolder holder, final File item, int position) {
             if (position == 0 && !StringUtil.isSame(mCurrentDir.getAbsolutePath(), mRootDir.getAbsolutePath())) {
                 holder.mDirectoryRowText.setText("..");
             } else {
                 holder.mDirectoryRowText.setText(item.getName());
             }
             setIcon(holder, item);
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (item.isDirectory()) {
+                        if (ParserFactory.create(item) == null) {
+                            setCurrentDir(item);
+                            return;
+                        }
+                    }
+                    //// TODO: 16-9-2 如果是漫画，在这里直接进入阅读
+                }
+            });
         }
 
         @Override

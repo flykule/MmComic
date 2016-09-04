@@ -5,7 +5,7 @@ package com.example.castle.mmcomic.base;
  * 常量类，管理常量
  */
 public class Constant {
-
+    public static final int MAX_RECENT_COUNT = 5;
     public static final String HANDLER_URI = "HANDLER_URI";
     public static final int COVER_THUMBNAIL_HEIGHT = 300;
     public static final int COVER_THUMBNAIL_WIDTH = 200;

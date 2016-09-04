@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.os.Process;
 import android.support.annotation.ArrayRes;
 import android.support.annotation.ColorRes;
+import android.support.annotation.DimenRes;
 import android.support.annotation.IntegerRes;
 import android.support.annotation.StringRes;
 import android.util.DisplayMetrics;
@@ -47,6 +48,14 @@ public class UiUtils {
      */
     public static Integer getInteger(@IntegerRes int intRes) {
         return getResources().getInteger(intRes);
+    }
+
+    /**
+     * @param intRes 需求的资源id
+     * @return 指定的dimension
+     */
+    public static float getDimension(@DimenRes int intRes) {
+        return getResources().getDimension(intRes);
     }
 
     /**

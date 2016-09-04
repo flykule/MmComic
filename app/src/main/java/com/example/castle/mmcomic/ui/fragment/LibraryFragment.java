@@ -28,10 +28,10 @@ import com.example.castle.mmcomic.managers.LocalCoverHandler;
 import com.example.castle.mmcomic.managers.Scanner;
 import com.example.castle.mmcomic.models.Comic;
 import com.example.castle.mmcomic.models.Storage;
+import com.example.castle.mmcomic.ui.activity.MainActivity;
 import com.example.castle.mmcomic.ui.view.DirectorySelectDialog;
 import com.example.castle.mmcomic.utils.ImageUtil;
 import com.example.castle.mmcomic.utils.SharedPrefUtil;
-import com.example.castle.mmcomic.utils.ToastUtil;
 import com.example.castle.mmcomic.utils.UiUtils;
 import com.squareup.picasso.Picasso;
 
@@ -169,6 +169,7 @@ public class LibraryFragment extends Fragment implements SwipeRefreshLayout.OnRe
         return super.onOptionsItemSelected(item);
     }
 
+
     @Override
     public void onSaveInstanceState(Bundle outState) {
         outState.putBoolean(BUNDLE_DIRECTORY_DIALOG_SHOW,
@@ -198,9 +199,9 @@ public class LibraryFragment extends Fragment implements SwipeRefreshLayout.OnRe
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         String path = mListManager.getDirectoryAtIndex(i);
-        String absolutePath = mListManager.getComicAtIndex(i).getFile().getAbsolutePath();
-        String displayAtIndex = mListManager.getDirectoryDisplayAtIndex(i);
-        ToastUtil.showShort(path + "cover: " + absolutePath + " display: " + displayAtIndex);
+        // TODO: 16-9-3 libraryBrowseFragment完成以后添加
+        LibraryBrowserFragment fragment = LibraryBrowserFragment.newInstance(path);
+        ((MainActivity) getActivity()).pushFragment(fragment);
     }
 
     /**

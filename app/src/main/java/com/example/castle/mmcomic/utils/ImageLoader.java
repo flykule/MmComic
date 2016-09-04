@@ -1,6 +1,7 @@
 package com.example.castle.mmcomic.utils;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.annotation.DrawableRes;
 import android.widget.ImageView;
 
@@ -21,8 +22,19 @@ public class  ImageLoader {
         mPicasso.load(imageRes).into(view);
     }
 
+    /**
+     * 提供多种重载
+     *
+     * @param imageUri 图片uri
+     * @param view     imageView
+     */
+    public static void load(Uri imageUri, ImageView view) {
+        mPicasso.load(imageUri).into(view);
+    }
+
     public static void clear(Context context) {
         Glide.get(context).clearMemory();
     }
+
 
 }

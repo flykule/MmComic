@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tv_header"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="@dimen/header_padding_vertical"
+    android:paddingLeft="@dimen/header_padding_horizontal"
+    android:paddingRight="@dimen/header_padding_horizontal"
+    android:paddingTop="@dimen/header_padding_vertical"
+    android:textColor="@color/darker"
+    android:textSize="@dimen/card_text"/>
