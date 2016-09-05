@@ -52,7 +52,7 @@ public class LibraryBrowserFragment extends Fragment
     private static final int ITEM_VIEW_TYPE_HEADER_RECENT = 2;
     private static final int ITEM_VIEW_TYPE_HEADER_ALL = 3;
 
-    private static final int NUM_HEADEARS = 3;
+    private static final int NUM_HEADEARS = 2;
     @BindView(R.id.library_grid)
     RecyclerView mLibraryGrid;
 
