@@ -183,6 +183,7 @@ public class ReaderFragment extends Fragment implements View.OnTouchListener {
         } else if (mode == Mode.MODE_BROWSER) {
             file = (File) bundle.getSerializable(PARAM_HANDLER);
         }
+        //在这里完成picasso的初始化
         mParser = ParserFactory.create(file);
         mComicHandler = new LocalComicHandler(mParser);
         mPicasso = new Picasso.Builder(getActivity())
@@ -246,6 +247,7 @@ public class ReaderFragment extends Fragment implements View.OnTouchListener {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.clear();
         inflater.inflate(R.menu.reader, menu);
         switch (mPageViewMode) {
             case ASPECT_FILL:

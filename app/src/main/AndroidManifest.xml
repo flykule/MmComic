@@ -17,7 +17,29 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activity.ReaderActivity"/>
+        <activity
+            android:name=".ui.activity.ReaderActivity"
+            android:label="@string/app_name"
+            android:parentActivityName=".ui.activity.MainActivity"
+            android:theme="@style/ReaderTheme">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.activity.MainActivity"/>
+            <!--不需要广播接受器，直接给活动注册即可-->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+
+                <data android:scheme="file"/>
+                <data android:host="*"/>
+                <data android:mimeType="application/rar"/>
+                <data android:mimeType="application/x-cbr"/>
+                <data android:mimeType="application/zip"/>
+                <data android:mimeType="application/x-tar"/>
+                <data android:mimeType="application/x-7z-compressed"/>
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
