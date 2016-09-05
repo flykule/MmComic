@@ -9,7 +9,7 @@
             android:fromDegrees="0"
             android:pivotX="50%"
             android:pivotY="50%"
-            android:toDegrees="360"></rotate>
+            android:toDegrees="360"/>
     </item>
     <!--反着旋转的进图图片-->
     <item>
@@ -19,6 +19,6 @@
             android:fromDegrees="360"
             android:pivotX="50%"
             android:pivotY="50%"
-            android:toDegrees="0"></rotate>
+            android:toDegrees="0"/>
     </item>
 </layer-list>

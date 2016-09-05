@@ -49,4 +49,7 @@
 
     <string name="library_empty">你还未指定当前漫画库。点击"\文件夹\"图标选择目录！</string>
     <string name="warning_missing_file">未能发现文件。请更新漫画库。</string>
+    <string name="reload_descr">重新加载中。。。。</string>
+    <string name="tv_empty">施工中。。。</string>
+    <string name="loadmore">读取更多</string>
 </resources>

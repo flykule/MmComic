@@ -1,5 +1,7 @@
 package com.example.castle.mmcomic.parser;
 
+import android.os.SystemClock;
+
 import com.example.castle.mmcomic.managers.NaturalOrderComparator;
 import com.example.castle.mmcomic.utils.Utils;
 
@@ -27,10 +29,13 @@ public class ZipParser extends BaseParser<ZipEntry> {
         mEntries = new ArrayList<>();
         List<ZipEntry> entryList = new ArrayList<>();
         Enumeration<? extends ZipEntry> entries = mZipFile.entries();
-        if (entries.hasMoreElements()) {
+        while (entries.hasMoreElements()) {
             entryList.add(entries.nextElement());
         }
         subscribeData(entryList);
+        while (!isComplete()) {
+            SystemClock.sleep(50);
+        }
         Collections.sort(mEntries, new NaturalOrderComparator() {
             @Override
             public String stringValue(Object o) {

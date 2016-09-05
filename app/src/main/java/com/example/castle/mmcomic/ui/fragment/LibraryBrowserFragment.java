@@ -1,5 +1,6 @@
 package com.example.castle.mmcomic.ui.fragment;
 
+import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -23,8 +24,10 @@ import com.example.castle.mmcomic.base.Constant;
 import com.example.castle.mmcomic.managers.LocalCoverHandler;
 import com.example.castle.mmcomic.models.Comic;
 import com.example.castle.mmcomic.models.Storage;
+import com.example.castle.mmcomic.ui.activity.ReaderActivity;
 import com.example.castle.mmcomic.ui.view.CoverImageView;
 import com.example.castle.mmcomic.utils.ImageLoader;
+import com.example.castle.mmcomic.utils.ToastUtil;
 import com.example.castle.mmcomic.utils.UiUtils;
 
 import java.io.File;
@@ -97,8 +100,6 @@ public class LibraryBrowserFragment extends Fragment
         mLibraryGrid.addItemDecoration(new GridSpacingItemDecoration(numColumns, spacing));
 
         getActivity().setTitle(new File(getArguments().getString(PARAM_PATH)).getName());
-
-
         return view;
     }
 
@@ -258,9 +259,16 @@ public class LibraryBrowserFragment extends Fragment
         return true;
     }
 
-    // TODO: 16-9-3 打开漫画，在这里进入阅读界面
-    public void openComic(Comic comic) {
 
+    public void openComic(Comic comic) {
+        if (!comic.getFile().exists()) {
+            ToastUtil.showShort(R.string.warning_missing_file);
+            return;
+        }
+        Intent intent = new Intent(getActivity(), ReaderActivity.class);
+        intent.putExtra(ReaderFragment.PARAM_HANDLER, comic.getId());
+        intent.putExtra(ReaderFragment.PARAM_MODE, ReaderFragment.Mode.MODE_LIBRARY);
+        startActivity(intent);
     }
 
     private void getComics() {

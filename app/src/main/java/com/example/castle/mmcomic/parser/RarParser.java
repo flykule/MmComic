@@ -40,7 +40,7 @@ public class RarParser extends BaseParser<FileHeader> {
             subscribeData(fileHeaders);
         }
         while (!isComplete()) {
-            SystemClock.sleep(200);
+            SystemClock.sleep(50);
         }
         Collections.sort(mHeaders, new NaturalOrderComparator() {
             @Override
@@ -91,15 +91,12 @@ public class RarParser extends BaseParser<FileHeader> {
                 }
                 synchronized (this) {
                     if (!cacheFile.exists()) {
-                        FileOutputStream outputStream = new FileOutputStream(cacheFile);
-                        try {
+
+                        try (FileOutputStream outputStream = new FileOutputStream(cacheFile)) {
                             mArchive.extractFile(header, outputStream);
                         } catch (RarException e) {
-                            outputStream.close();
                             FileUtils.delete(cacheFile);
                             throw e;
-                        } finally {
-                            outputStream.close();
                         }
                     }
                 }
@@ -135,5 +132,17 @@ public class RarParser extends BaseParser<FileHeader> {
     @Override
     void whenNext(FileHeader fileHeader) {
         mHeaders.add(fileHeader);
+    }
+
+    public void setCacheDirectory(File cacheDirectory) {
+        mCacheFile = cacheDirectory;
+        if (!mCacheFile.exists()) {
+            mCacheFile.mkdir();
+        }
+        if (mCacheFile.listFiles() != null) {
+            for (File file : mCacheFile.listFiles()) {
+                file.delete();
+            }
+        }
     }
 }

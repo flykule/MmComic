@@ -49,5 +49,8 @@
 
     <string name="library_empty">Your collection seems empty. Click \"folder\" icon to select library directory</string>
     <string name="warning_missing_file">Missing file. Please update the library</string>
-    <string name="tv_empty">施工中</string>
+    <string name="tv_empty">working....</string>
+    <string name="reload_descr">reloading...</string>
+    <string name="loadmore">Loading More..</string>
+    <string name="load_failed">加载失败,点击重试</string>
 </resources>

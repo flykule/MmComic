@@ -2,11 +2,13 @@ package com.example.castle.mmcomic.utils;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Process;
 import android.support.annotation.ArrayRes;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DimenRes;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.IntegerRes;
 import android.support.annotation.StringRes;
 import android.util.DisplayMetrics;
@@ -65,6 +67,14 @@ public class UiUtils {
      */
     public static int getColor(@ColorRes int colorRes) {
         return getResources().getColor(colorRes);
+    }
+
+    /**
+     * @param drawableRes 图片id
+     * @return 指定图片
+     */
+    public static Drawable getDrawable(@DrawableRes int drawableRes) {
+        return getResources().getDrawable(drawableRes, null);
     }
 
     /**

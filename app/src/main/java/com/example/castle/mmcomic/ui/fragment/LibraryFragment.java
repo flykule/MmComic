@@ -199,7 +199,6 @@ public class LibraryFragment extends Fragment implements SwipeRefreshLayout.OnRe
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         String path = mListManager.getDirectoryAtIndex(i);
-        // TODO: 16-9-3 libraryBrowseFragment完成以后添加
         LibraryBrowserFragment fragment = LibraryBrowserFragment.newInstance(path);
         ((MainActivity) getActivity()).pushFragment(fragment);
     }
@@ -239,6 +238,9 @@ public class LibraryFragment extends Fragment implements SwipeRefreshLayout.OnRe
                     fragment.getComics();
                     ((BaseAdapter) fragment.mGvGroup.getAdapter()).notifyDataSetChanged();
                     fragment.setLoading(false);
+                    //加入一行刷新侧滑栏检查效果
+                    // TODO: 16-9-5 要动态刷新侧滑栏效果
+                    //((MainActivity) mLibraryFragment.get().getActivity()).setNavBar();
                     break;
             }
         }

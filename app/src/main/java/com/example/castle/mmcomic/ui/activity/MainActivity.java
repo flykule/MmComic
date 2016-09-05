@@ -1,6 +1,7 @@
 package com.example.castle.mmcomic.ui.activity;
 
 import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
@@ -209,6 +210,13 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
                         mFragmentManager.beginTransaction()
                                 .replace(R.id.header, new HeaderFragment())
                                 .commit();
+                        // Once data has been obtained, this listener is no longer needed, so remove it...
+                        //完成切换，及时销毁避免内存泄漏
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                            mNavigationView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                        } else {
+                            mNavigationView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                        }
                     }
                 });
 

@@ -152,7 +152,7 @@ public class Scanner {
                             fileDeque.add(file);
                         }
                         if (storageFiles.containsKey(file)) {
-                            fileDeque.remove(file);
+                            storageFiles.remove(file);
                             continue;
                         }
                         BaseParser parser = ParserFactory.create(file);
@@ -167,7 +167,7 @@ public class Scanner {
                 for (Comic comic : storageFiles.values()) {
                     File coverCacheFile = FileUtils
                             .getCacheFile(comic.getFile().getAbsolutePath());
-                    FileUtils.delete(coverCacheFile);
+                    coverCacheFile.delete();
                     storage.removeComic(comic.getId());
                 }
             } catch (Exception e) {

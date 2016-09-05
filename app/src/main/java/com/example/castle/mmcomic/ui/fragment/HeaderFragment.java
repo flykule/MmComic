@@ -27,6 +27,7 @@ import java.util.Random;
 
 import rx.Observable;
 import rx.Observer;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -46,6 +47,7 @@ public class HeaderFragment extends Fragment implements View.OnLayoutChangeListe
 
     //当前是否在运行
     private boolean mIsRunning;
+    private Subscription mSubscription;
 
     @Nullable
     @Override
@@ -107,14 +109,15 @@ public class HeaderFragment extends Fragment implements View.OnLayoutChangeListe
     @Override
     public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
         //立刻发送数据加入观察，缩放完成后值给成员变量可，直接加载即可
-        Observable.just(bitmap)
-                .subscribeOn(Schedulers.computation())
+        mSubscription = Observable.just(bitmap)
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.io())
                 .subscribe(new Observer<Bitmap>() {
                     @Override
                     public void onCompleted() {
                         showDrawable(mDrawable);
+
                     }
 
                     @Override
@@ -127,6 +130,15 @@ public class HeaderFragment extends Fragment implements View.OnLayoutChangeListe
                         scaleBitmap(bitmap);
                     }
                 });
+
+    }
+
+    @Override
+    public void onDestroy() {
+        if (mSubscription != null) {
+            mSubscription.unsubscribe();
+        }
+        super.onDestroy();
     }
 
     private void scaleBitmap(Bitmap bitmap) {

@@ -71,9 +71,9 @@ public abstract class BaseParser<T> {
                         return fileFilter(t);
                     }
                 })
-                .subscribeOn(Schedulers.computation())
+                .subscribeOn(Schedulers.io())
                 .onBackpressureBuffer()
-                //.unsubscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
                 .subscribe(new Observer<T>() {
                     @Override
