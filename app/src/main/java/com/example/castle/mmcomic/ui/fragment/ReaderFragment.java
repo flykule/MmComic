@@ -16,6 +16,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
@@ -43,7 +44,6 @@ import com.example.castle.mmcomic.parser.ParserFactory;
 import com.example.castle.mmcomic.parser.RarParser;
 import com.example.castle.mmcomic.ui.activity.ReaderActivity;
 import com.example.castle.mmcomic.ui.view.PageImageView;
-import com.example.castle.mmcomic.utils.ImageUtil;
 import com.example.castle.mmcomic.utils.SysUtil;
 import com.example.castle.mmcomic.utils.UiUtils;
 import com.example.castle.mmcomic.utils.Utils;
@@ -172,7 +172,7 @@ public class ReaderFragment extends Fragment implements View.OnTouchListener {
         //根据参数类型决定接下来的行为
         Mode mode = (Mode) bundle.getSerializable(PARAM_MODE);
 
-        mPicasso = ImageUtil.getPicasso();
+
         mPagerAdapter = new ComicPagerAdapter();
         File file = null;
         if (mode == Mode.MODE_LIBRARY) {
@@ -184,6 +184,10 @@ public class ReaderFragment extends Fragment implements View.OnTouchListener {
             file = (File) bundle.getSerializable(PARAM_HANDLER);
         }
         mParser = ParserFactory.create(file);
+        mComicHandler = new LocalComicHandler(mParser);
+        mPicasso = new Picasso.Builder(getActivity())
+                .addRequestHandler(mComicHandler)
+                .build();
         mFileName = file.getName();
 
         mCurrentPage = Math.max(1, Math.min(mCurrentPage, mParser.pageCount()));
@@ -285,7 +289,7 @@ public class ReaderFragment extends Fragment implements View.OnTouchListener {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        mPicasso.shutdown();
+        //mPicasso.shutdown();
         super.onDestroy();
     }
 
@@ -632,6 +636,7 @@ public class ReaderFragment extends Fragment implements View.OnTouchListener {
             if (view == null) {
                 return;
             }
+            Log.d("TAG", "onBitmapLoaded: ");
             setVisibility(View.VISIBLE, View.GONE, View.GONE);
             ImageView imageView = (ImageView) view.findViewById(R.id.pageImageView);
             imageView.setImageBitmap(bitmap);
@@ -643,6 +648,7 @@ public class ReaderFragment extends Fragment implements View.OnTouchListener {
             if (view == null) {
                 return;
             }
+            Log.d("TAG", "onBitmapFailed: ");
             setVisibility(View.GONE, View.GONE, View.VISIBLE);
             ImageButton imageButton = (ImageButton) view.findViewById(R.id.reloadButton);
             imageButton.setOnClickListener(this);

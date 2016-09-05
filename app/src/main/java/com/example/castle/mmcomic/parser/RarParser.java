@@ -81,7 +81,7 @@ public class RarParser extends BaseParser<FileHeader> {
         return getPageStream(mHeaders.get(num));
     }
 
-    private InputStream getPageStream(FileHeader header) {
+    private InputStream getPageStream(FileHeader header) throws IOException {
         try {
             if (mCacheFile != null) {
                 String name = getName(header);
@@ -91,11 +91,10 @@ public class RarParser extends BaseParser<FileHeader> {
                 }
                 synchronized (this) {
                     if (!cacheFile.exists()) {
-
                         try (FileOutputStream outputStream = new FileOutputStream(cacheFile)) {
                             mArchive.extractFile(header, outputStream);
                         } catch (RarException e) {
-                            FileUtils.delete(cacheFile);
+                            cacheFile.delete();
                             throw e;
                         }
                     }
@@ -104,9 +103,8 @@ public class RarParser extends BaseParser<FileHeader> {
             }
             return mArchive.getInputStream(header);
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new IOException("unable to parse rar");
         }
-        return null;
     }
 
     @Override

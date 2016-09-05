@@ -33,7 +33,7 @@ public class DirectoryParser extends BaseParser<File> {
             throw new IOException("空目录！ " + dir.getAbsolutePath());
         }
         while (!isComplete()) {
-            SystemClock.sleep(200);
+            SystemClock.sleep(50);
         }
         Collections.sort(mFileList, new NaturalOrderComparator() {
             @Override

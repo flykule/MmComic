@@ -240,7 +240,7 @@ public class LibraryFragment extends Fragment implements SwipeRefreshLayout.OnRe
                     fragment.setLoading(false);
                     //加入一行刷新侧滑栏检查效果
                     // TODO: 16-9-5 要动态刷新侧滑栏效果
-                    //((MainActivity) mLibraryFragment.get().getActivity()).setNavBar();
+                    ((MainActivity) mLibraryFragment.get().getActivity()).setNavBar();
                     break;
             }
         }

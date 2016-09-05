@@ -18,7 +18,6 @@ import com.example.castle.mmcomic.models.Storage;
 import com.example.castle.mmcomic.utils.ImageUtil;
 import com.example.castle.mmcomic.utils.SysUtil;
 import com.example.castle.mmcomic.utils.UiUtils;
-import com.orhanobut.logger.Logger;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
@@ -26,7 +25,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import rx.Observable;
-import rx.Observer;
+import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -110,19 +109,19 @@ public class HeaderFragment extends Fragment implements View.OnLayoutChangeListe
     public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
         //立刻发送数据加入观察，缩放完成后值给成员变量可，直接加载即可
         mSubscription = Observable.just(bitmap)
+                //加入rxloader，可以避免内存泄漏
+                //.compose(RxLoader.<Bitmap>from((AppCompatActivity) getActivity()))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .unsubscribeOn(Schedulers.io())
-                .subscribe(new Observer<Bitmap>() {
+                .subscribe(new Subscriber<Bitmap>() {
                     @Override
                     public void onCompleted() {
                         showDrawable(mDrawable);
-
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Logger.e(e.getMessage());
+                        e.printStackTrace();
                     }
 
                     @Override
@@ -133,13 +132,6 @@ public class HeaderFragment extends Fragment implements View.OnLayoutChangeListe
 
     }
 
-    @Override
-    public void onDestroy() {
-        if (mSubscription != null) {
-            mSubscription.unsubscribe();
-        }
-        super.onDestroy();
-    }
 
     private void scaleBitmap(Bitmap bitmap) {
         //加载的bitmap高宽

@@ -2,7 +2,6 @@ package com.example.castle.mmcomic.managers;
 
 import android.net.Uri;
 
-import com.example.castle.mmcomic.base.Constant;
 import com.example.castle.mmcomic.parser.BaseParser;
 import com.example.castle.mmcomic.utils.StringUtil;
 import com.squareup.picasso.Picasso;
@@ -17,6 +16,7 @@ import java.io.InputStream;
  * 图片请求handler
  */
 public class LocalComicHandler extends RequestHandler {
+    private final static String HANDLER_URI = "localcomic";
     private BaseParser mParser;
 
     public LocalComicHandler(BaseParser parser) {
@@ -27,7 +27,7 @@ public class LocalComicHandler extends RequestHandler {
     public static Uri getPageUri(int pageNum) {
         return new Uri.Builder()
                 //前缀
-                .scheme(Constant.HANDLER_URI)
+                .scheme(HANDLER_URI)
                 //路径
                 .authority("")
                 //后缀
@@ -43,13 +43,12 @@ public class LocalComicHandler extends RequestHandler {
      */
     @Override
     public boolean canHandleRequest(Request data) {
-        return StringUtil.isSame(data.uri.getScheme(), Constant.HANDLER_URI);
+        return StringUtil.isSame(data.uri.getScheme(), HANDLER_URI);
     }
 
     /**
      * 对返回的结果做处理
-     *
-     * @param request       请求
+     * @param request   请求
      * @param networkPolicy
      * @return 加载的图片
      * @throws IOException

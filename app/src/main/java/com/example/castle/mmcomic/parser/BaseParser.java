@@ -1,14 +1,12 @@
 package com.example.castle.mmcomic.parser;
 
-import com.orhanobut.logger.Logger;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
 import rx.Observable;
-import rx.Observer;
+import rx.Subscriber;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
@@ -72,10 +70,8 @@ public abstract class BaseParser<T> {
                     }
                 })
                 .subscribeOn(Schedulers.io())
-                .onBackpressureBuffer()
-                .unsubscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
-                .subscribe(new Observer<T>() {
+                .subscribe(new Subscriber<T>() {
                     @Override
                     public void onCompleted() {
                         setComplete(true);
@@ -83,7 +79,7 @@ public abstract class BaseParser<T> {
 
                     @Override
                     public void onError(Throwable e) {
-                        Logger.d(e.getMessage());
+                        e.printStackTrace();
                     }
 
                     @Override

@@ -35,6 +35,7 @@ public class TarParser extends BaseParser<TarArchiveEntry> {
             entryList.add(entry);
         }
         subscribeData(entryList);
+
         Collections.sort(mEntries, new NaturalOrderComparator() {
             @Override
             public String stringValue(Object o) {

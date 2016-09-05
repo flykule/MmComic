@@ -58,4 +58,5 @@ dependencies {
     compile 'com.orhanobut:logger:1.15'
     compile 'org.apache.commons:commons-compress:1.12'
     compile 'com.facebook.stetho:stetho:1.3.1'
+    compile 'com.philosophicalhacker.rxloader:rxloader:0.1.0'
 }

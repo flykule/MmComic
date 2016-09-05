@@ -1,5 +1,6 @@
 package com.example.castle.mmcomic.ui.fragment;
 
+import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.Environment;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import com.example.castle.mmcomic.R;
 import com.example.castle.mmcomic.base.MyBaseAdapter;
 import com.example.castle.mmcomic.parser.ParserFactory;
+import com.example.castle.mmcomic.ui.activity.ReaderActivity;
 import com.example.castle.mmcomic.utils.FileUtils;
 import com.example.castle.mmcomic.utils.StringUtil;
 import com.example.castle.mmcomic.utils.UiUtils;
@@ -158,6 +160,10 @@ public class BrowserFragment extends Fragment {
                         }
                     }
                     //// TODO: 16-9-2 如果是漫画，在这里直接进入阅读
+                    Intent intent = new Intent(getActivity(), ReaderActivity.class);
+                    intent.putExtra(ReaderFragment.PARAM_HANDLER, item);
+                    intent.putExtra(ReaderFragment.PARAM_MODE, ReaderFragment.Mode.MODE_BROWSER);
+                    startActivity(intent);
                 }
             });
         }
