@@ -7,3 +7,7 @@
 /build
 /captures
 将删除 libs/
+将删除 app/libs/
+将删除 app/src/main/java/com/example/castle/mmcomic/const/
+将删除 app/src/main/java/com/example/castle/mmcomic/network/
+将删除 projectFilesBackup/
